@@ -30,12 +30,6 @@ function Child(props) {
   return (
     <>
       <form>
-        <h2>Expense-Tracker</h2>
-        <div className="head">
-          <h4>Income:{props.ttl_income}</h4>
-          <h4>Expenses:{props.ttl_expense}</h4>
-        </div>
-
         <p>
           <input
             type="text"
@@ -53,7 +47,7 @@ function Child(props) {
           ></input>
         </p>
         <button type="submit" onClick={onHandleSubmit}>
-          Add Expense
+          Add Bill
         </button>
       </form>
     </>

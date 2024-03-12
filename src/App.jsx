@@ -2,6 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import Child from "./Child";
 import Display from "./Display";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import RouterOne from "./RouteOne";
 
 function App() {
   const [expenseArr, setExpenseArr] = useState([
@@ -11,9 +13,6 @@ function App() {
   const [amount, setExpenseAmount] = useState("");
   const [isEdit, setEdit] = useState(false);
   const [index, setIndex] = useState();
-  
-
-
 
   function editExpense(index) {
     setEdit(true);
@@ -41,32 +40,46 @@ function App() {
         id:
           expenseArr.length > 0 ? expenseArr[expenseArr.length - 1].id + 1 : 1,
         expense: expense_name,
-        amount: expense_amt,
+        amount: parseInt(expense_amt),
       };
 
       setExpenseArr([...expenseArr, obj]);
-      
     }
   }
-  var ttl_income,ttl_expense;
+  var Income=0, Expense=0;
+  expenseArr.forEach((value) => {
+    if (value.amount > 0) {
+      Income += value.amount;
+    } else {
+      Expense += value.amount
+    }
+  })
   return (
     <>
       <h1>Expense-Tracker</h1>
-      <h3>Balance:{}</h3>
-      {expenseArr.map((value, index) => {
-        if (value.amount > 0) {
-          ttl_income +=value.amount;
-        }
-        else
-          ttl_expense +=value.amount;
-      })}
+      <div>
+        <div className="balance">Balance: {Income + Expense}</div>
+        <div className="income-expense-container">
+          <div className="income">
+            <span className="title">Income</span>
+            <span>{Income}</span>
+          </div>
+          <div className="block"></div>
+          <div className="expense">
+            <span className="title">Expense</span>
+            <span>{Expense}</span>
+          </div>
+        </div>
+      </div>
+      <div className="income">
+        <p>Income</p>
+      </div>
 
       <Child
         onExpenseSubmit={onExpenseSubmit}
         expense={expense}
         amount={amount}
-        ttl_expense={ttl_expense}
-        ttl_income={ttl_income}
+        
       />
       <h1>Expenses</h1>
       {expenseArr.map((value, index) => (
@@ -79,6 +92,14 @@ function App() {
           editExpense={editExpense}
         />
       ))}
+
+      {/* <div>
+        
+          <Routes>
+            <Route path="routeone" element={<RouterOne/>}></Route>
+          </Routes>
+       
+      </div> */}
     </>
   );
 }
